@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Quiz Dinámico Ley de Delitos Informáticos 💖</title>
+    <style>
+        /* Estilos CSS para el look Rosado */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7e8ec; /* Fondo rosa muy claro */
+            color: #4a4a4a;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Para centrar verticalmente */
+        }
+
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.5); /* Sombra rosa más fuerte */
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff69b4; /* Rosa fuerte (Hot Pink) */
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ffb6c1; 
+            padding-bottom: 10px;
+        }
+
+        #question-counter {
+            color: #e91e63;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .question-card {
+            border: 2px solid #ffb6c1; 
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #fff0f5; 
+            min-height: 150px; /* Altura mínima para estabilidad visual */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .question-card p {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .option-label {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: 1px solid #ffb6c1;
+        }
+
+        .option-label:hover {
+            background-color: #ffc0cb; 
+        }
+
+        #submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background-color: #ff69b4; 
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #submit-btn:hover {
+            background-color: #e55c9f; 
+            transform: scale(1.01);
+        }
+
+        #results {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ff69b4;
+            border: 3px dashed #ffb6c1;
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>💖 Quiz Ley de Delitos Informáticos 💖</h1>
+    <div id="question-counter"></div>
+    
+    <form id="quizForm">
+        <div id="quiz-area">
+            </div>
+        
+        <button id="submit-btn" type="submit">Responder y Siguiente</button>
+    </form>
+
+    <div id="results"></div>
+</div>
+
+<script>
+    const questions = [
+        {
+            type: 'test',
+            question: '1. Corrupción de Menores Agravada (Art. 167): ¿Qué acción lleva a la pena de **cuatro a diez años de prisión**?',
+            options: {
+                A: 'Exhibiciones sin usar medios informáticos.',
+                B: 'Mantener la corrupción del menor.',
+                C: 'Obligar a la víctima a realizar actos sexuales perversos o excesivos.',
+                D: 'Acceder a la correspondencia digital.'
+            },
+            answer: 'C'
+        },
+        {
+            type: 'test',
+            question: '2. Violación de Datos Personales Agravada (Art. 196 bis): La pena se eleva a cuatro a ocho años si los datos vulnerados corresponden a:',
+            options: {
+                A: 'Un programa informático malicioso.',
+                B: 'Información para el tráfico económico.',
+                C: 'Un menor de edad o incapaz.',
+                D: 'Sitios legítimos de Internet.'
+            },
+            answer: 'C'
+        },
+        {
+            type: 'test',
+            question: '3. Causal de Agravación Común: ¿Cuál es una causal de agravación de la pena común para varios delitos (Extorsión, Estafa, Sabotaje, etc.)?',
+            options: {
+                A: 'Que el perjuicio sea menor.',
+                B: 'Que afecte a un tercero.',
+                C: 'Que el autor sea un empleado encargado de dar soporte al sistema o red informática.',
+                D: 'Que la conducta sea sin autorización.'
+            },
+            answer: 'C'
+        },
+        {
+            type: 'test',
+            question: '4. Estafa Informática (Art. 217 bis): ¿Cuál es la pena si el delito se comete contra sistemas de información **bancarios y de entidades financieras**?',
+            options: {
+                A: 'Seis a doce años de prisión.',
+                B: 'Tres a seis años de prisión.',
+                C: 'Cinco a diez años de prisión.',
+                D: 'Cuatro a ocho años de prisión.'
+            },
+            answer: 'C'
+        },
+        {
+            type: 'test',
+            question: '5. Suplantación de Páginas Electrónicas (Art. 233): La pena de uno a tres años se eleva a tres a seis años cuando...',
+            options: {
+                A: 'La página suplantada pertenece a un ente estatal.',
+                B: 'Afecta el funcionamiento de servicios públicos.',
+                C: 'Se captura información confidencial de una persona física o jurídica.',
+                D: 'Se difunde información falsa.'
+            },
+            answer: 'C'
+        },
+        {
+            type: 'boolean',
+            question: '6. **Verdadero o Falso:** La pena por Daño Informático es de tres a seis años de prisión si la información destruida es insustituible o irrecuperable.',
+            answer: 'V'
+        },
+        {
+            type: 'boolean',
+            question: '7. **Verdadero o Falso:** El artículo 288 (Espionaje) agrava la pena a cinco a diez años si se realiza mediante manipulación informática o TICs.',
+            answer: 'V'
+        },
+        {
+            type: 'boolean',
+            question: '8. **Verdadero o Falso:** Una forma de Sabotaje Informático es impedir, alterar u obstaculizar sin autorización el funcionamiento de un sistema de tratamiento de información.',
+            answer: 'V'
+        },
+        {
+            type: 'boolean',
+            question: '9. **Verdadero o Falso:** La pena por Suplantación de Identidad NO se agrava si causa perjuicio a una persona menor de edad o incapaz.',
+            answer: 'F'
+        },
+        {
+            type: 'boolean',
+            question: '10. **Verdadero o Falso:** Es sancionado quien induzca a error a una persona para que instale un programa informático malicioso.',
+            answer: 'V'
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    const totalQuestions = questions.length;
+    let randomizedQuestions = [];
+
+    const quizArea = document.getElementById('quiz-area');
+    const form = document.getElementById('quizForm');
+    const resultsDiv = document.getElementById('results');
+    const counterDiv = document.getElementById('question-counter');
+    const submitBtn = document.getElementById('submit-btn');
+
+    // Función para mezclar (shuffle) el array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Función para renderizar la pregunta actual
+    function renderQuestion() {
+        if (currentQuestionIndex < totalQuestions) {
+            const qData = randomizedQuestions[currentQuestionIndex];
+            quizArea.innerHTML = ''; // Limpiar pregunta anterior
+
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            
+            const qText = document.createElement('p');
+            // Quitar el número original de la pregunta y agregar el actual dinámico
+            const cleanQuestionText = qData.question.replace(/^\d+\.\s*/, '');
+            qText.textContent = cleanQuestionText; 
+            card.appendChild(qText);
+
+            if (qData.type === 'test') {
+                for (const key in qData.options) {
+                    const label = document.createElement('label');
+                    label.className = 'option-label';
+                    label.innerHTML = `<input type="radio" name="current_q" value="${key}"> ${key}. ${qData.options[key]}`;
+                    card.appendChild(label);
+                }
+            } else if (qData.type === 'boolean') {
+                const labelV = document.createElement('label');
+                labelV.className = 'option-label';
+                labelV.innerHTML = `<input type="radio" name="current_q" value="V"> Verdadero`;
+                card.appendChild(labelV);
+
+                const labelF = document.createElement('label');
+                labelF.className = 'option-label';
+                labelF.innerHTML = `<input type="radio" name="current_q" value="F"> Falso`;
+                card.appendChild(labelF);
+            }
+
+            quizArea.appendChild(card);
+            
+            // Actualizar contador
+            counterDiv.textContent = `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}`;
+
+        } else {
+            // Fin del quiz
+            showResults();
+        }
+    }
+
+    // Lógica para revisar la respuesta
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const selectedOption = form.elements['current_q'].value;
+
+        if (!selectedOption) {
+            alert('¡Por favor, selecciona una respuesta antes de continuar!');
+            return;
+        }
+
+        const correctAnswer = randomizedQuestions[currentQuestionIndex].answer;
+
+        if (selectedOption === correctAnswer) {
+            score++;
+        }
+
+        currentQuestionIndex++;
+        renderQuestion();
+    });
+
+    // Función para mostrar resultados finales
+    function showResults() {
+        quizArea.style.display = 'none';
+        submitBtn.style.display = 'none';
+        counterDiv.style.display = 'none';
+
+        resultsDiv.innerHTML = `
+            <h2>¡Quiz Finalizado! 🎉</h2>
+            <p>Tu puntaje final es:</p>
+            <p style="font-size: 2.5em; color: #e91e63;">${score} / ${totalQuestions}</p>
+            <p>¡Gracias por participar!</p>
+        `;
+        resultsDiv.style.display = 'block';
+    }
+
+    // Inicializar el quiz
+    document.addEventListener('DOMContentLoaded', () => {
+        randomizedQuestions = shuffleArray(questions);
+        renderQuestion();
+    });
+</script>
+
+</body>
+</html>
